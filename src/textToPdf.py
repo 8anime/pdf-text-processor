@@ -5,33 +5,57 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-
-PDF_FILE = os.path.join(ROOT_DIR, 'data', 'SurveyAct25of1961.pdf')
-TEXT_FILE = os.path.join(ROOT_DIR, 'survey_data.txt')
-OUTPUT_PDF = os.path.join(ROOT_DIR, 'survey.pdf')
-
-
 def extractTextFromPDF(pdfFile, outputTextFile):
-    text = ''
+    """
+    Extracts text content from a PDF file and writes it to a text file.
+
+    Parameters:
+    - pdfFile (str): The path to the input PDF file.
+    - outputTextFile (str): The path to the output text file where extracted text will be saved.
+
+    This function reads the content of the input PDF file page by page and extracts the text.
+    The extracted text is then written to the specified output text file using UTF-8 encoding.
+
+    If any exceptions occur during the process, they are caught and printed to the console.
+
+    Returns:
+    None
+    """
+    text = ''  # Store the extracted text
     try:
-        with open(pdfFile, 'rb') as readFile:
-            pdfReader = PyPDF2.PdfFileReader(readFile)
-            for pageNum in range(pdfReader.numPages):
-                page = pdfReader.getPage(pageNum)
-                text += page.extractText()
+        with open(pdfFile, 'rb') as readFile:            # Open the PDF file in a context manager
+            pdfReader = PyPDF2.PdfFileReader(readFile)   # Read the PDF file
+            for pageNum in range(pdfReader.numPages):    # Use a for loop to go through each page
+                page = pdfReader.getPage(pageNum)        # Get each page
+                text += page.extractText()               # Extract text from each page and add it to the text variable
 
         # Open the output text file in write mode and write the text
         with open(outputTextFile, 'w', encoding='utf-8') as textFile:
-            textFile.write(text)
+            textFile.write(text)   # Write the extracted text to a text file
     except Exception as e:
         print(e)
 
 
 def createPDFFromText(inputTextFile, outputPDFFile):
+    """
+    Creates a PDF document from text content in a text file.
+
+    Parameters:
+    - inputTextFile (str): The path to the input text file containing the text content.
+    - outputPDFFile (str): The path to the output PDF file to be created.
+
+    This function reads the text content from the input text file and generates a PDF document.
+    It formats the text, sets fonts and sizes, and paginates the content to fit within the page size.
+    The resulting PDF document is saved to the specified output PDF file.
+
+    If the text content exceeds the page size, the function automatically starts a new page and continues
+    the text on the next page.
+
+    Returns:
+    None
+    """
     try:
-        with open(inputTextFile, 'r', encoding='utf-8') as textFile:
+        with open(inputTextFile, 'r', encoding='utf-8') as textFile:  # Open the Text file in a context manager
             text = textFile.read()  # Read the text file
 
         # Drawing surface that allows you to add various elements such as text, shapes,
@@ -54,15 +78,8 @@ def createPDFFromText(inputTextFile, outputPDFFile):
             c.drawString(x, y, line)
             y -= 15  # Adjust the spacing between lines
 
-        c.save()
+        c.save()   # Save the contents in the PDF file
 
     except Exception as e:
         print(e)
 
-
-if __name__ == '__main__':
-    # Extract text from the PDF and save it to a text file
-    extractTextFromPDF(PDF_FILE, TEXT_FILE)
-
-    # Create a PDF from the text file
-    createPDFFromText(TEXT_FILE, OUTPUT_PDF)
