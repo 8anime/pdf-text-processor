@@ -54,6 +54,7 @@ def createPDFFromText(inputTextFile, outputPDFFile):
     Returns:
     None
     """
+    print("Creating PDF from text...")
     try:
         with open(inputTextFile, 'r', encoding='utf-8') as textFile:  # Open the Text file in a context manager
             text = textFile.read()  # Read the text file
@@ -79,6 +80,8 @@ def createPDFFromText(inputTextFile, outputPDFFile):
             y -= 15  # Adjust the spacing between lines
 
         c.save()   # Save the contents in the PDF file
+
+        print(f"PDF creation completed and saved to '{outputPDFFile}'" )
 
     except Exception as e:
         print(e)
