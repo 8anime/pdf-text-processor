@@ -16,7 +16,7 @@ PDF Text Processor is a Python application that allows you to extract text conte
 
 PDF Text Processor is a versatile tool designed to handle PDF documents. It offers two primary functions:
 
-1. **Extract Text from PDF**: This function allows you to extract text content from PDF files and save it to a text file. It's particularly useful for data extraction from PDF documents.
+1. **Extract Text from PDF**: This function allows you to extract text content from PDF files and save it to a text file. It's particularly useful for text extraction from PDF documents.
 
 2. **Create PDF from Text**: With this function, you can generate PDF documents from text data. You provide a text file, and the application formats the text, and creates PDF documents. It also handles pagination and layout adjustments.
 
